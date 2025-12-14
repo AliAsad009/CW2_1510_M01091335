@@ -1,0 +1,2 @@
+aliasad,$2b$12$izu5RckY7eMrNSnIF6dFX.JmIzJPRqOAQaDTLnWBlMZBrLXBHREF.,admin
+source,$2b$12$6VUWVbxmoe4b36wi/XFg.eZl9m8BCv7cvt1cQiRH7ph.RhN4SSw96,user
