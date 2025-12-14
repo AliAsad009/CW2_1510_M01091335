@@ -1,6 +1,0 @@
-streamlit
-openai
-bcrypt
-pandas
-altair
-plotly
