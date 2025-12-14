@@ -15,6 +15,8 @@ import altair as alt
 import plotly.express as px
 
 
+
+# Redirect to login if user is not authenticated
 if "logged_in" not in st.session_state or not st.session_state.logged_in:
     st.switch_page("Home.py")
     st.stop()
@@ -25,6 +27,8 @@ conn = connect_database('DATA/intelligence_platform.db')
 
 # Section: Cybersecurity Dashboard
 st.markdown("#### 🛡️ Cybersecurity Dashboard")
+
+# Load incidents and filter out certain severities and statuses
 incidents = get_all_incidents()  
 incidents = incidents[~incidents['severity'].isin(['Low', 'High'])]
 # Remove rows where status is exactly 'Open' (capital O)
@@ -54,6 +58,7 @@ with col_sev:
 with col_stat:
     st.markdown("#### Incidents by Status (Pie Chart)")
     status_counts = incidents['status'].value_counts()
+    # Show incident status as a pie chart
     fig = px.pie(
         names=status_counts.index,
         values=status_counts.values,
@@ -77,6 +82,7 @@ with col1:
         status = st.selectbox("Status", ["open", "in progress", "resolved"])
         submitted = st.form_submit_button("Add Incident")
     if submitted and title:
+        # Insert new incident into the database
         insert_incident(conn, title, severity, status)
         st.success("✓ Incident added successfully!")
         st.experimental_rerun()
@@ -87,16 +93,13 @@ with col2:
         selected_id = st.selectbox("Select Incident ID", incident_ids)
         new_status = st.selectbox("New Status", ["open", "in-progress", "resolved", "closed"])
         update_submitted = st.form_submit_button("Update Status")
+
     if update_submitted:
-        from app.data.incidents import update_incident_status
+        # Update the status of the selected incident
         update_incident_status(selected_id, new_status)
         st.success(f"✓ Incident ID {selected_id} status updated to {new_status}!")
         st.experimental_rerun()
 
-    if update_submitted:
-        update_incident_status(selected_id, new_status)
-        st.success(f"✓ Incident ID {selected_id} status updated to {new_status}!")
-        st.experimental_rerun()  # Refresh to show updated status
 
 # DELETE: Delete incident
 st.markdown("---")
@@ -107,6 +110,7 @@ if incident_ids:
         delete_id = st.selectbox("Select Incident ID to Delete", incident_ids, key="delete_incident_id")
         delete_submitted = st.form_submit_button("Delete Incident")
     if delete_submitted:
+        # Delete the selected incident from the database
         from app.data.incidents import delete_incident
         delete_incident(delete_id)
         st.success(f"Incident {delete_id} deleted!")
@@ -122,6 +126,7 @@ incidents_df = get_all_incidents()
 
 
 
+# Custom CSS for wider buttons in the UI
 st.markdown("""
     <style>
     .wide-btn .stButton > button {
@@ -148,12 +153,14 @@ chart_col, chart_spacer = st.columns([2, 5])
 with chart_col:
         st.markdown("### Incidents by type")
         if chart_type == "bar":
+            # Show bar chart for incident types
             bar_chart = alt.Chart(chart_data).mark_bar().encode(
                 x=alt.X('Type:N', axis=alt.Axis(labelAngle=45)),
                 y='Count:Q'
             ).properties(width=500, height=400)
             st.altair_chart(bar_chart, use_container_width=True)
         else:
+            # Show line chart with points for incident types
             line = alt.Chart(chart_data).mark_line().encode(
                 x=alt.X('Type:N', axis=alt.Axis(labelAngle=45)),
                 y='Count:Q'

@@ -110,18 +110,18 @@ run_ai_chat("IT Tickets")
 st.divider()
 
 
-#	Initialize	OpenAI	client
+#Initialize	OpenAI	client
 client	= OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-#	Page	configuration
+#Page	configuration
 st.set_page_config(
-				page_title="ChatGPT	Assistant",
-				page_icon="💬",
-				layout="wide"
+        page_title="ChatGPT Assistant",
+        page_icon="💬",
+        layout="wide"
 )
 
-#	Initialize	session	state
+# Store chat messages in session state
 if 'messages' not in st.session_state:
-				st.session_state.messages	= []
+        st.session_state.messages = []
 
 if st.session_state.logged_in:
     with st.sidebar:
