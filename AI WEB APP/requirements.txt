@@ -4,4 +4,4 @@ openai
 altair
 plotly
 bcrypt
-sqlite3
+

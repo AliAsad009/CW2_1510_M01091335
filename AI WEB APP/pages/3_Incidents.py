@@ -155,14 +155,14 @@ with chart_col:
         if chart_type == "bar":
             # Show bar chart for incident types
             bar_chart = alt.Chart(chart_data).mark_bar().encode(
-                x=alt.X('Type:N', axis=alt.Axis(labelAngle=45)),
+                x=alt.X('Type:N'),  # Default x axis label orientation
                 y='Count:Q'
             ).properties(width=500, height=400)
             st.altair_chart(bar_chart, use_container_width=True)
         else:
             # Show line chart with points for incident types
             line = alt.Chart(chart_data).mark_line().encode(
-                x=alt.X('Type:N', axis=alt.Axis(labelAngle=45)),
+                x=alt.X('Type:N'),  # Default x axis label orientation
                 y='Count:Q'
             ).properties(width=500, height=400)
             points = alt.Chart(chart_data).mark_point(filled=True, size=100, color='orange').encode(

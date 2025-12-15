@@ -110,9 +110,9 @@ run_ai_chat("IT Tickets")
 st.divider()
 
 
-#Initialize	OpenAI	client
+#Initialize OpenAI client
 client	= OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-#Page	configuration
+#Page configuration
 st.set_page_config(
         page_title="ChatGPT Assistant",
         page_icon="💬",
